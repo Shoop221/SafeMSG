@@ -2,28 +2,27 @@
  * @name Safe-MSG
  * @authorId 342035782204129285
  * @authorLink https://github.com/Shoop221
- * @source https://github.com/PrinceBunBun981/Textify/blob/main/Textify.plugin.js
+ * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "1.3.1";
+    const version = "1";
     const config = {
         info: {
-            name: "Textify",
+            name: "Safe-MSG",
             authors: [{
-                name: "PrinceBunBun981",
-                discord_id: "644298972420374528",
-                github_username: "PrinceBunBun981",
-                twitter_username: "PrinceBunBun981"
+                name: "Shoop221",
+                discord_id: "6342035782204129285",
+                github_username: "Shoop221",
             }],
             version: version,
-            description: "Use various commands to edit the text you send.",
-            github: "https://github.com/PrinceBunBun981/Textify/blob/main/Textifyplugin.js",
-            github_raw: "https://raw.githubusercontent.com/PrinceBunBun981/Textify/main/Textify.plugin.js"
+            description: "Encrypts and Decrypts MSGS.",
+            github: "https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js",
+            github_raw: "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js"
         },
         changelog: [{
-            title: `Bug Fixes`,
-            type: "fixed",
+            title: `Testing`,
+            type: "Beta",
             items: [
-                "Fixed Experiments not showing up on restart even though it's enabled.",
+                "Fixed / added some stuff",
             ]
         }, ],
