@@ -28,7 +28,7 @@
         }, ],
     }
 
-
+        var password = "";
 
             return (([Plugin, Api]) => {
 
@@ -46,17 +46,61 @@
 
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
+           
 
-                            var password = -1234;            
-                            
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":    
-                                console.log(message.content.slice(7, message.content.length));
-                                console.log(message.content.slice(7, message.content.length).length);      
+                                //console.log(message.content.slice(7, message.content.length));
+                                //console.log(message.content.slice(7, message.content.length).length);      
 
-                                message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length), password));
+                                //console.log(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
+                                if(password.length == 0){
+                                    message.content = message.content.replace(message.content, "[setup a key first!]")
+                                }else{
+                                    console.log(password);
+                                    message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
+                                }
+                                                                        
                                     break; 
+
+                                case "key":
+                                    var keytxt = message.content.slice(5, message.content.length);
+
+                                if(isNaN(keytxt)){
+                                    message.content = message.content.replace(message.content, "[This key is not a number!!!]");
+
+                                }else if(Math.sign(keytxt) == -1){;
+                                    message.content = message.content.replace(message.content, "[No negative numbers]");
+                                    console.log(password);
+
+                                }else if(keytxt.length > 4){
+                                    password = keytxt.slice(0,4);
+                                    message.content = message.content.replace(message.content, "[Key is set!! (note this will reset when you restart discord)]");
+                                    console.log(password);
+
+                                }else{
+                                    password = keytxt;
+                                    console.log(password);
+                                    message.content = message.content.replace(message.content, "[Key is set!!]");                                    
+                                }
+                                break;
+
+                            case "genkey":
+                                password = "";
+                                for(var i = 0; i < 4; i++){
+                                    password = password + Math.floor(Math.random() * 10); 
+                                }
+                                console.log(password);
+                                message.content = message.content.replace(message.content, "[Random key is set!! (show the key by using showkey$)]");                                    
+                               
+
+                                break;
+
+                            case "showkey":
+                                message.content = message.content.replace(message.content, "(key$ " + password + " )");                                    
+
+                                break;
                             }
                         });
                         
