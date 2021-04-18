@@ -41,45 +41,61 @@
     
                     onStart() {
 
-                        var shiftCharacters = function(str, password) {
-                            if (password < 0) {
-                                return shiftCharacters(str, password + 26);
-                            }
-                            var output = "";
-                        
-                            for (var i = 0; i < str.length; i++) {
-                                var c = str[i];
-                        
-                                if (c.match(/[a-z]/i)) {
-                                    var code = str.charCodeAt(i);
-                        
-                                    if (code >= 65 && code <= 90) {
-                                        c = String.fromCharCode(((code - 65 + password) % 26) + 65);
-                                    } else if (code >= 97 && code <= 122) {
-                                        c = String.fromCharCode(((code - 97 + password) % 26) + 97);
-                                    }
-                                }
-                        
-                                output += c;
-                            }
-                            return output;
-                        };
-
-
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
 
-                            var password = 1234;
-                                           
+                            var password = 123456789;            
+                            
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":
-                                const encry = (/^encry\! /g).exec(content);
-                                    message.content = shiftCharacters(message.content.substr(encry[0].length, message.content.length), Number(shiftBy));
+                                const encry = (/^encry\! /g).exec(content);    
+                                console.log(message.content.slice(7, message.content.length));
+                                console.log(message.content.slice(7, message.content.length).length);      
 
+                                message.content = message.content.replace("encry$", caesarShift(message.content.slice(7, message.content.length), password));
                                     break; 
                             }
                         });
+                        
+                        var caesarShift = function (str, password) {
+                            // Wrap the Password
+                            if (password < 0) {
+                              return caesarShift(str, password + 26);
+                            }
+                          
+                            // Make an output variable
+                            var output = "";
+                          
+                            // Go through each character
+                            for (var i = 0; i < str.length; i++) {
+                              // Get the character we'll be appending
+                              var c = str[i];
+                          
+                              // If it's a letter...
+                              if (c.match(/[a-z]/i)) {
+                                // Get its code
+                                var code = str.charCodeAt(i);
+                          
+                                // Uppercase letters
+                                if (code >= 65 && code <= 90) {
+                                  c = String.fromCharCode(((code - 65 + password) % 26) + 65);
+                                }
+                          
+                                // Lowercase letters
+                                else if (code >= 97 && code <= 122) {
+                                  c = String.fromCharCode(((code - 97 + password) % 26) + 97);
+                                }
+                              }
+                          
+                              // Append
+                              output += c;
+                            }
+                          
+                            // All done!
+                            return output;
+                          };
+
                     }
     
                     getSettingsPanel() {
@@ -90,11 +106,11 @@
                         Patcher.unpatchAll();
                     }
                     
-                   
 
                 }
+                   
             };
     
-            return plugin(Plugin, Api);
-        })(global.ZeresPluginLibrary.buildPlugin(config));
-});
+        return plugin(Plugin, Api);
+    })(global.ZeresPluginLibrary.buildPlugin(config));
+})();
