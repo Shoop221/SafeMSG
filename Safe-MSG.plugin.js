@@ -48,8 +48,13 @@
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":
-                                    var password = "test"
-                                    message.content = message.content.substr("$encry", CryptoJS.AES.encrypt(message.content, password).toString());
+                                    const encry = (/^encry\$ /g).exec(content);
+
+                                    const encrypt = message.content.substr(encry[0].length, message.content.length)
+                                    .split(" ")
+                                    .join("\t");
+
+                                    message.content = CryptoJS.AES.encrypt(encrypt, 'secret key 123').toString();
                                     break; 
                             }
                         });
