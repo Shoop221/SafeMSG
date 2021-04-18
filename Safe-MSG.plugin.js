@@ -40,21 +40,34 @@
                     }
     
                     onStart() {
-                        var CryptoJS = require("crypto-js");
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
-    
-    
+
+                            var password = 1234;
+                            var place = 1
+                            var encryText;
+                            var signature = ['a','b','c','d','e','f','g','h','i','j',
+                                            'k','l','m','n','o','p','q','r','s','t','u'
+                                            ,'v','w','x','y','z','A','B','C','D','E','F',
+                                            'G','H','I','J','K','L','M','N','O','P','Q',
+                                            'R','S','T','U','V','W','X','Y','Z',0,1,2,3,
+                                            4,5,6,7,8,9];
+                                           
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":
-                                    const encry = (/^encry\$ /g).exec(content);
-
-                                    const encrypt = message.content.substr(encry[0].length, message.content.length)
-                                    .split(" ")
-                                    .join("\t");
-
-                                    message.content = CryptoJS.AES.encrypt(encrypt, 'secret key 123').toString();
+                                for(var i = 0; i > signature.length; i++){
+                                   for(var o = 0; o > message.length; o++){
+                                       if(message.content[i] == signature[i]){
+                                        encryText = encryText + signature[i+password[place]];
+                                        place++;
+                                        if(place < password.length){
+                                            place = 1;
+                                        }
+                                       }
+                                   }
+                                }
+                                message.content = message.content.replace(message.content, encryText);
                                     break; 
                             }
                         });
