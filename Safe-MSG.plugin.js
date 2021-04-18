@@ -44,16 +44,16 @@
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
 
-                            var password = 123456789;            
+                            var password = -1234;            
                             
                             // Commands
                             switch (content.split("$")[0]) {
-                                case "encry":
-                                const encry = (/^encry\! /g).exec(content);    
+                                case "encry":    
                                 console.log(message.content.slice(7, message.content.length));
                                 console.log(message.content.slice(7, message.content.length).length);      
 
-                                message.content = message.content.replace("encry$", caesarShift(message.content.slice(7, message.content.length), password));
+                                console.log(caesarShift(message.content.slice(7, message.content.length), password).slice(0 , message.content.slice(7, message.content.length).length));
+                                message.content = message.content.replace("encry$", caesarShift(message.content.slice(7, message.content.length), password).slice(0 , message.content.slice(7, message.content.length).length));
                                     break; 
                             }
                         });
