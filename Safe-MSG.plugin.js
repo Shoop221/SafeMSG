@@ -27,6 +27,11 @@
             ]
         }, ],
     }
+
+    
+
+
+
         return (([Plugin, Api]) => {
 
             const plugin = (Plugin, Api) => {
@@ -44,33 +49,57 @@
                             const content = message.content.toLowerCase();
 
                             var password = 1234;
-                            var place = 1
-                            var encryText;
-                            var signature = ['a','b','c','d','e','f','g','h','i','j',
-                                            'k','l','m','n','o','p','q','r','s','t','u'
-                                            ,'v','w','x','y','z','A','B','C','D','E','F',
-                                            'G','H','I','J','K','L','M','N','O','P','Q',
-                                            'R','S','T','U','V','W','X','Y','Z',0,1,2,3,
-                                            4,5,6,7,8,9];
+                            var place = 0;
+                            var encryNum = "";
+                            var encryText = "";
                                            
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":
-                                for(var i = 0; i > signature.length; i++){
-                                   for(var o = 0; o > message.length; o++){
-                                       if(message.content[i] == signature[i]){
-                                        encryText = encryText + signature[i+password[place]];
-                                        place++;
-                                        if(place < password.length){
-                                            place = 1;
-                                        }
-                                       }
+                                for(var i = 0; i > message.content.slice(7, message.content.length).length; i++){
+                                    encryNum = message.content.charCodeAt(i);
+                                   if(encryNum >= 65 && encryNum <= 90){
+                                       encryText = string.fromCharCode(((encryNum - 65 + password.charAt(place)) % 26) +65);
+                                   }else if(encryNum >= 97 && encryNum <= 122){
+                                    encryText = string.fromCharCode(((encryNum - 97 + password.charAt(place)) % 26 ) + 97);
                                    }
+                                   place++;
+                                   if(place > password.length){
+                                       place = 0;
+                                   }
+                                   encryNum = "";
                                 }
-                                message.content = message.content.replace(message.content, encryText);
+                                console.log(encryText);
+                                message.content = message.content.replace("encry$", encryText);
                                     break; 
                             }
                         });
+
+
+                        var shiftCharacters = function(str, password) {
+                            if (password < 0) {
+                                return shiftCharacters(str, password + 26);
+                            }
+                            var output = "";
+                        
+                            for (var i = 0; i < str.length; i++) {
+                                var c = str[i];
+                        
+                                if (c.match(/[a-z]/i)) {
+                                    var code = str.charCodeAt(i);
+                        
+                                    if (code >= 65 && code <= 90) {
+                                        c = String.fromCharCode(((code - 65 + password) % 26) + 65);
+                                    } else if (code >= 97 && code <= 122) {
+                                        c = String.fromCharCode(((code - 97 + password) % 26) + 97);
+                                    }
+                                }
+                        
+                                output += c;
+                            }
+                            return output;
+                        };
+
                     }
     
                     getSettingsPanel() {
@@ -80,12 +109,15 @@
                     onStop() {
                         Patcher.unpatchAll();
                     }
+                    
+                   
+
                 }
             };
     
             return plugin(Plugin, Api);
         })(global.ZeresPluginLibrary.buildPlugin(config));
-    })();
+    })
  
 
 
