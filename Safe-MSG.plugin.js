@@ -52,8 +52,7 @@
                                 console.log(message.content.slice(7, message.content.length));
                                 console.log(message.content.slice(7, message.content.length).length);      
 
-                                console.log(caesarShift(message.content.slice(7, message.content.length), password).slice(0 , message.content.slice(7, message.content.length).length));
-                                message.content = message.content.replace("encry$", caesarShift(message.content.slice(7, message.content.length), password).slice(0 , message.content.slice(7, message.content.length).length));
+                                message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length), password));
                                     break; 
                             }
                         });
@@ -99,7 +98,7 @@
                     }
     
                     getSettingsPanel() {
-                        
+                     
                     }
     
                     onStop() {
