@@ -27,6 +27,9 @@
             ]
         }, ],
     }
+
+
+
             return (([Plugin, Api]) => {
 
             const plugin = (Plugin, Api) => {
@@ -98,7 +101,7 @@
                     }
     
                     getSettingsPanel() {
-                     
+                        
                     }
     
                     onStop() {
