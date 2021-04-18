@@ -27,11 +27,6 @@
             ]
         }, ],
     }
-
-    
-
-
-
         return (([Plugin, Api]) => {
 
             const plugin = (Plugin, Api) => {
@@ -45,36 +40,6 @@
                     }
     
                     onStart() {
-                        Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
-                            const content = message.content.toLowerCase();
-
-                            var password = 1234;
-                            var place = 0;
-                            var encryNum = "";
-                            var encryText = "";
-                                           
-                            // Commands
-                            switch (content.split("$")[0]) {
-                                case "encry":
-                                for(var i = 0; i > message.content.slice(7, message.content.length).length; i++){
-                                    encryNum = message.content.charCodeAt(i);
-                                   if(encryNum >= 65 && encryNum <= 90){
-                                       encryText = string.fromCharCode(((encryNum - 65 + password.charAt(place)) % 26) +65);
-                                   }else if(encryNum >= 97 && encryNum <= 122){
-                                    encryText = string.fromCharCode(((encryNum - 97 + password.charAt(place)) % 26 ) + 97);
-                                   }
-                                   place++;
-                                   if(place > password.length){
-                                       place = 0;
-                                   }
-                                   encryNum = "";
-                                }
-                                console.log(encryText);
-                                message.content = message.content.replace("encry$", encryText);
-                                    break; 
-                            }
-                        });
-
 
                         var shiftCharacters = function(str, password) {
                             if (password < 0) {
@@ -100,6 +65,19 @@
                             return output;
                         };
 
+
+                        Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
+                            const content = message.content.toLowerCase();
+
+                            var password = 1234;
+                                           
+                            // Commands
+                            switch (content.split("$")[0]) {
+                                case "encry":
+                                    message.content = shiftCharacters(message.content.substr(encry[0].length, message.content.length), Number(shiftBy));
+                                    break; 
+                            }
+                        });
                     }
     
                     getSettingsPanel() {
@@ -117,8 +95,8 @@
     
             return plugin(Plugin, Api);
         })(global.ZeresPluginLibrary.buildPlugin(config));
-    })
- 
+})
+
 
 
 
