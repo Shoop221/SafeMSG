@@ -27,7 +27,7 @@
             ]
         }, ],
     }
-        return (([Plugin, Api]) => {
+            return (([Plugin, Api]) => {
 
             const plugin = (Plugin, Api) => {
                 const {
@@ -74,7 +74,9 @@
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":
+                                const encry = (/^encry\! /g).exec(content);
                                     message.content = shiftCharacters(message.content.substr(encry[0].length, message.content.length), Number(shiftBy));
+
                                     break; 
                             }
                         });
@@ -95,8 +97,4 @@
     
             return plugin(Plugin, Api);
         })(global.ZeresPluginLibrary.buildPlugin(config));
-})
-
-
-
-
+});
