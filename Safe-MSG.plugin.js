@@ -5,7 +5,7 @@
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "1";
+    const version = "2";
     const config = {
         info: {
             name: "SafeMSG",
@@ -20,10 +20,10 @@
             github_raw: "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js"
         },
         changelog: [{
-            title: `Testing`,
-            type: "Beta",
+            title: `fixed some things and made it work`,
+            type: "still in beta",
             items: [
-                "Fixed / added some stuff",
+                "fixed a lot of stuff and made it work... kinda",
             ]
         }, ],
     }
