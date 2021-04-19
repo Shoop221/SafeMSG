@@ -15,7 +15,7 @@
                 github_username: "Shoop221",
             }],
             version: version,
-            description: "Encrypts and Decrypts MSGS.",
+            description: "Encrypts and Decrypts MSGS. commands: encry$, decry$, key$, genkey$, showkey$",
             github: "https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js",
             github_raw: "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js"
         },
