@@ -43,7 +43,7 @@
                     }
     
                     onStart() {
-//test
+
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
            
