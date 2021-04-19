@@ -72,17 +72,16 @@
 
                                 }else if(Math.sign(keytxt) == -1){;
                                     message.content = message.content.replace(message.content, "[No negative numbers]");
-                                    console.log(password);
 
                                 }else if(keytxt.length > 4){
-                                    password = keytxt.slice(0,4);
+                                    password = parseInt(keytxt.slice(0,4));
                                     message.content = message.content.replace(message.content, "[Key is set!! (note this will reset when you restart discord)]");
                                     console.log(password);
-
+                                    
                                 }else{
-                                    password = keytxt;
+                                    password = parseInt(keytxt);
                                     console.log(password);
-                                    message.content = message.content.replace(message.content, "[Key is set!!]");                                    
+                                    message.content = message.content.replace(message.content, "[Key is set!! (note this will reset when you restart discord)]");                                    
                                 }
                                 break;
 
@@ -91,6 +90,7 @@
                                 for(var i = 0; i < 4; i++){
                                     password = password + Math.floor(Math.random() * 10); 
                                 }
+                                password = parseInt(password);
                                 console.log(password);
                                 message.content = message.content.replace(message.content, "[Random key is set!! (show the key by using showkey$)]");                                    
                                
@@ -98,16 +98,27 @@
                                 break;
 
                             case "showkey":
-                                message.content = message.content.replace(message.content, "(key$ " + password + " )");                                    
+                                message.content = message.content.replace(message.content, "");
+                                alert("The key is " + password);                                  
+
+                                break;
+
+                            case "decry":
+                                var decrypass = "-" + password;                      
+                                console.log(decrypass);
+                                alert(caesarShift(message.content.slice(7, message.content.length).toLowerCase(), decrypass));
+                                message.content = message.content.replace(message.content, "");
+
 
                                 break;
                             }
                         });
                         
-                        var caesarShift = function (str, password) {
-                            // Wrap the Password
-                            if (password < 0) {
-                              return caesarShift(str, password + 26);
+                        var caesarShift = function (str, amount) {
+                            console.log(amount);
+                            // Wrap the amount
+                            if (amount < 0) {
+                              return caesarShift(str, parseInt(amount) + 26);                            
                             }
                           
                             // Make an output variable
@@ -125,12 +136,12 @@
                           
                                 // Uppercase letters
                                 if (code >= 65 && code <= 90) {
-                                  c = String.fromCharCode(((code - 65 + password) % 26) + 65);
+                                  c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
                                 }
                           
                                 // Lowercase letters
                                 else if (code >= 97 && code <= 122) {
-                                  c = String.fromCharCode(((code - 97 + password) % 26) + 97);
+                                  c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
                                 }
                               }
                           
