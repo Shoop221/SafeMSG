@@ -29,7 +29,7 @@
     }
 
         var password = "";
-//test
+
             return (([Plugin, Api]) => {
 
             const plugin = (Plugin, Api) => {
