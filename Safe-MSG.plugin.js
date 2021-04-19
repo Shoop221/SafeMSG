@@ -58,7 +58,7 @@
                                 //console.log(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
                                 
                                 if(password.length == 0){
-                                    BdApi.showToast('You must setup a key first!!', 
+                                    BdApi.showToast('You must setup a key first!', 
                                     {
                                         type: "error",
                                         Timeout: 3000
@@ -66,7 +66,7 @@
                                     message.content = message.content.replace(message.content, "");
 
                                 }else{
-                                    console.log(password);
+                                    //console.log(password);
                                     message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
                                 }
                                                                         
@@ -86,7 +86,7 @@
 
 
                                 }else if(Math.sign(keytxt) == -1){;
-                                    BdApi.showToast('Key cannot be negative!!', 
+                                    BdApi.showToast('Key cannot be negative!', 
                                     {
                                         type: "error",
                                         Timeout: 3000
@@ -96,18 +96,18 @@
 
                                 }else if(keytxt.length > 6){
                                     password = parseInt(keytxt.slice(0,6));
-                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!!)', 
+                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!)', 
                                     {
                                         type: "success",
                                         Timeout: 3000
                                     })
                                     message.content = message.content.replace(message.content, "");
-                                    console.log(password);
+                                    //console.log(password);
                                     
                                 }else{
                                     password = parseInt(keytxt);
-                                    console.log(password);
-                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!!)', 
+                                    //console.log(password);
+                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!)', 
                                     {
                                         type: "success",
                                         Timeout: 3000
@@ -117,12 +117,10 @@
                                 break;
 
                             case "genkey":
-                                password = "";
-                                for(var i = 0; i < 6; i++){
-                                    password = password + Math.floor(Math.random() * 10); 
-                                }
+                                password = Math.floor((Math.random() * 999999)+ 1);                              
                                 password = parseInt(password);
-                                console.log(password);
+                                
+                                //console.log(password);
                                 BdApi.showToast('The key has been generated', 
                                 {
                                     type: "success",
