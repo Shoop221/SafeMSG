@@ -5,7 +5,7 @@
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "2";
+    const version = "1.2";
     const config = {
         info: {
             name: "SafeMSG",
@@ -20,10 +20,10 @@
             github_raw: "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js"
         },
         changelog: [{
-            title: `fixed some things and made it work`,
+            title: `UI update`,
             type: "still in beta",
             items: [
-                "fixed a lot of stuff and made it work... kinda",
+                "Did some UI changes",
             ]
         }, ],
     }
@@ -44,19 +44,27 @@
     
                     onStart() {
 
+                  
+
                         Patcher.after(DiscordModules.MessageActions, "sendMessage", (_, [, message]) => {
                             const content = message.content.toLowerCase();
-           
+                                                                       
 
                             // Commands
                             switch (content.split("$")[0]) {
                                 case "encry":    
                                 //console.log(message.content.slice(7, message.content.length));
                                 //console.log(message.content.slice(7, message.content.length).length);      
-
                                 //console.log(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
+                                
                                 if(password.length == 0){
-                                    message.content = message.content.replace(message.content, "[setup a key first!]")
+                                    BdApi.showToast('You must setup a key first!!', 
+                                    {
+                                        type: "error",
+                                        Timeout: 3000
+                                    }) 
+                                    message.content = message.content.replace(message.content, "");
+
                                 }else{
                                     console.log(password);
                                     message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
@@ -68,45 +76,81 @@
                                     var keytxt = message.content.slice(5, message.content.length);
 
                                 if(isNaN(keytxt)){
-                                    message.content = message.content.replace(message.content, "[This key is not a number!!!]");
+                                    BdApi.showToast('This is not a number!', 
+                                    {
+                                        type: "error",
+                                        Timeout: 3000
+                                    })
+
+                                    message.content = message.content.replace(message.content, "");
+
 
                                 }else if(Math.sign(keytxt) == -1){;
-                                    message.content = message.content.replace(message.content, "[No negative numbers]");
+                                    BdApi.showToast('Key cannot be negative!!', 
+                                    {
+                                        type: "error",
+                                        Timeout: 3000
+                                    })
 
-                                }else if(keytxt.length > 4){
-                                    password = parseInt(keytxt.slice(0,4));
-                                    message.content = message.content.replace(message.content, "[Key is set!! (note this will reset when you restart discord)]");
+                                    message.content = message.content.replace(message.content, "");
+
+                                }else if(keytxt.length > 6){
+                                    password = parseInt(keytxt.slice(0,6));
+                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!!)', 
+                                    {
+                                        type: "success",
+                                        Timeout: 3000
+                                    })
+                                    message.content = message.content.replace(message.content, "");
                                     console.log(password);
                                     
                                 }else{
                                     password = parseInt(keytxt);
                                     console.log(password);
-                                    message.content = message.content.replace(message.content, "[Key is set!! (note this will reset when you restart discord)]");                                    
+                                    BdApi.showToast('Key is set!! (this will reset when you restart discord!!)', 
+                                    {
+                                        type: "success",
+                                        Timeout: 3000
+                                    })               
+                                    message.content = message.content.replace(message.content, "");                    
                                 }
                                 break;
 
                             case "genkey":
                                 password = "";
-                                for(var i = 0; i < 4; i++){
+                                for(var i = 0; i < 6; i++){
                                     password = password + Math.floor(Math.random() * 10); 
                                 }
                                 password = parseInt(password);
                                 console.log(password);
-                                message.content = message.content.replace(message.content, "[Random key is set!! (show the key by using showkey$)]");                                    
+                                BdApi.showToast('The key has been generated', 
+                                {
+                                    type: "success",
+                                    Timeout: 3000
+                                })               
+                                message.content = message.content.replace(message.content, "");                                  
                                
 
                                 break;
 
                             case "showkey":
+                                BdApi.showToast('The key is ' + password, 
+                                {
+                                    type: "success",
+                                    Timeout: 3000
+                                }) 
                                 message.content = message.content.replace(message.content, "");
-                                alert("The key is " + password);                                  
+                                                                 
 
                                 break;
 
                             case "decry":
                                 var decrypass = "-" + password;                      
-                                console.log(decrypass);
-                                alert(caesarShift(message.content.slice(7, message.content.length).toLowerCase(), decrypass));
+                                BdApi.showToast(caesarShift(message.content.slice(7, message.content.length).toLowerCase(), decrypass), 
+                                    {
+                                        type: "success"
+                                    }
+                                )
                                 message.content = message.content.replace(message.content, "");
 
 
@@ -115,7 +159,6 @@
                         });
                         
                         var caesarShift = function (str, amount) {
-                            console.log(amount);
                             // Wrap the amount
                             if (amount < 0) {
                               return caesarShift(str, parseInt(amount) + 26);                            
@@ -154,9 +197,9 @@
                           };
 
                     }
-    
+                  
                     getSettingsPanel() {
-                        
+
                     }
     
                     onStop() {
