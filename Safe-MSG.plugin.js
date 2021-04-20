@@ -5,7 +5,7 @@
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "1.2";
+    const version = "1.3";
     const config = {
         info: {
             name: "SafeMSG",
@@ -20,15 +20,18 @@
             github_raw: "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js"
         },
         changelog: [{
-            title: `UI update`,
+            title: `Updating the encryption/ decryption`,
             type: "still in beta",
             items: [
-                "Did some UI changes",
+                "Changed the encryption and decryption method",
             ]
         }, ],
     }
 
         var password = "";
+        var msg = "";
+        var pwd;
+        var letters;
 
             return (([Plugin, Api]) => {
 
@@ -67,7 +70,16 @@
 
                                 }else{
                                     //console.log(password);
-                                    message.content = message.content.replace(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
+                                     letters = message.content.slice(7, message.content.length).toLowerCase().split("");
+                                     pwd = password.toString().split("");
+                                    var encrypwd = pwd
+
+                                  for(var i = 0; i < letters.length; i++){
+                                    caesarShift(letters[i], pwd[0]);
+                                    encrypwd.push(encrypwd.shift());
+                                  }
+                                                                     
+                                 message.content = msg.toString();
                                 }
                                                                         
                                     break; 
@@ -143,13 +155,25 @@
                                 break;
 
                             case "decry":
-                                var decrypass = "-" + password;                      
-                                BdApi.showToast(caesarShift(message.content.slice(7, message.content.length).toLowerCase(), decrypass), 
-                                    {
-                                        type: "success"
-                                    }
-                                )
-                                message.content = message.content.replace(message.content, "");
+                                 letters = message.content.slice(7, message.content.length).toLowerCase().split("");
+                                 pwd = password.toString().split("");                                
+                                                                
+                                for(var l = 0; l < pwd.length; l++){                                                                   
+                                    pwd[l]="-"+pwd[l];
+                                } 
+                                
+                                for(var o = 0; o < letters.length; o++){
+                                    caesarShift(letters[i], pwd[0]);
+                                    pwd.push(pwd.shift());
+                                  }  
+                                  
+                                  BdApi.showToast(msg, 
+                                  {
+                                      type: "success",
+                                      Timeout: 3000
+                                  })         
+                                  message.content = message.content.replace(message.content, "");                                  
+
 
 
                                 break;
@@ -161,19 +185,16 @@
                             if (amount < 0) {
                               return caesarShift(str, parseInt(amount) + 26);                            
                             }
+                                                  
+                          var c = str;     
                           
-                            // Make an output variable
-                            var output = "";
-                          
-                            // Go through each character
-                            for (var i = 0; i < str.length; i++) {
-                              // Get the character we'll be appending
-                              var c = str[i];
+                          //console.log(str);
+                          //console.log(amount);                 
                           
                               // If it's a letter...
-                              if (c.match(/[a-z]/i)) {
+                              if (c.match(/[a-z]/)) {
                                 // Get its code
-                                var code = str.charCodeAt(i);
+                                var code = str.charCodeAt();
                           
                                 // Uppercase letters
                                 if (code >= 65 && code <= 90) {
@@ -187,11 +208,8 @@
                               }
                           
                               // Append
-                              output += c;
-                            }
-                          
-                            // All done!
-                            return output;
+                              msg += c;
+                                                     
                           };
 
                     }
