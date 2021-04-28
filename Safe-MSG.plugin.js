@@ -5,7 +5,7 @@
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "1.3";
+    const version = "1.4";
     const config = {
         info: {
             name: "SafeMSG",
@@ -21,9 +21,9 @@
         },
         changelog: [{
             title: `Updating the encryption/ decryption`,
-            type: "still in beta",
+            type: "beta",
             items: [
-                "Changed the encryption and decryption method",
+                "Fixed issues with decryption not working.",
             ]
         }, ],
     }
@@ -55,7 +55,8 @@
 
                             // Commands
                             switch (content.split("$")[0]) {
-                                case "encry":    
+                                case "encry":
+                                    msg = "";    
                                 //console.log(message.content.slice(7, message.content.length));
                                 //console.log(message.content.slice(7, message.content.length).length);      
                                 //console.log(message.content, caesarShift(message.content.slice(7, message.content.length).toLowerCase(), password));
@@ -73,12 +74,13 @@
                                      letters = message.content.slice(7, message.content.length).toLowerCase().split("");
                                      pwd = password.toString().split("");
                                     var encrypwd = pwd
-
+                                    console.log(pwd);
                                   for(var i = 0; i < letters.length; i++){
                                     caesarShift(letters[i], pwd[0]);
                                     encrypwd.push(encrypwd.shift());
                                   }
-                                                                     
+                                  console.log("------------------------------------");                 
+                                  
                                  message.content = msg.toString();
                                 }
                                                                         
@@ -155,15 +157,19 @@
                                 break;
 
                             case "decry":
+                                msg = "";
                                  letters = message.content.slice(7, message.content.length).toLowerCase().split("");
                                  pwd = password.toString().split("");                                
                                                                 
-                                for(var l = 0; l < pwd.length; l++){                                                                   
-                                    pwd[l]="-"+pwd[l];
+                                for(var l = 0; l < pwd.length; l++){     
+                                    if(pwd[l] != 0){
+                                        pwd[l]="-"+pwd[l];
+                                    }
                                 } 
-                                
+
+                                console.log(pwd);
                                 for(var o = 0; o < letters.length; o++){
-                                    caesarShift(letters[i], pwd[0]);
+                                    caesarShift(letters[o], pwd[0]);
                                     pwd.push(pwd.shift());
                                   }  
                                   
@@ -182,34 +188,36 @@
                         
                         var caesarShift = function (str, amount) {
                             // Wrap the amount
-                            if (amount < 0) {
-                              return caesarShift(str, parseInt(amount) + 26);                            
+                            if (parseInt(amount) < 0) {
+                              return caesarShift(str, parseInt(amount) + 26);
                             }
-                                                  
-                          var c = str;     
                           
-                          //console.log(str);
-                          //console.log(amount);                 
+                            console.log(amount);
+                            // Go through each character
+                            for (var i = 0; i < str.length; i++) {
+                              // Get the character we'll be appending
+                              var c = str[i];
                           
                               // If it's a letter...
-                              if (c.match(/[a-z]/)) {
+                              if (c.match(/[a-z]/i)) {
                                 // Get its code
-                                var code = str.charCodeAt();
+                                var code = str.charCodeAt(i);
                           
                                 // Uppercase letters
                                 if (code >= 65 && code <= 90) {
-                                  c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
+                                  c = String.fromCharCode(((code - 65 + parseInt(amount)) % 26) + 65);
                                 }
                           
                                 // Lowercase letters
                                 else if (code >= 97 && code <= 122) {
-                                  c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+                                  c = String.fromCharCode(((code - 97 + parseInt(amount)) % 26) + 97);
                                 }
                               }
                           
                               // Append
                               msg += c;
-                                                     
+                            }
+                          
                           };
 
                     }
