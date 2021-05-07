@@ -5,7 +5,7 @@
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
  module.exports = (() => {
-    const version = "1.4";
+    const version = "1.5";
     const config = {
         info: {
             name: "SafeMSG",
@@ -23,7 +23,7 @@
             title: `Updating the encryption/ decryption`,
             type: "beta",
             items: [
-                "Fixed issues with decryption not working.",
+                "fixed encryption / decryption method",
             ]
         }, ],
     }
