@@ -76,7 +76,7 @@
                                     var encrypwd = pwd
                                     console.log(pwd);
                                   for(var i = 0; i < letters.length; i++){
-                                    caesarShift(letters[i], pwd[0]);
+                                    caesarShift(letters[i], encrypwd[0]);
                                     encrypwd.push(encrypwd.shift());
                                   }
                                   console.log("------------------------------------");                 
@@ -159,18 +159,19 @@
                             case "decry":
                                 msg = "";
                                  letters = message.content.slice(7, message.content.length).toLowerCase().split("");
-                                 pwd = password.toString().split("");                                
+                                 pwd = password.toString().split("");    
+                                 var decrypass = pwd;                            
                                                                 
-                                for(var l = 0; l < pwd.length; l++){     
-                                    if(pwd[l] != 0){
-                                        pwd[l]="-"+pwd[l];
+                                for(var l = 0; l < decrypass.length; l++){     
+                                    if(decrypass[l] != 0){
+                                        decrypass[l]="-"+decrypass[l];
                                     }
                                 } 
 
-                                console.log(pwd);
+                                console.log(decrypass);
                                 for(var o = 0; o < letters.length; o++){
-                                    caesarShift(letters[o], pwd[0]);
-                                    pwd.push(pwd.shift());
+                                    caesarShift(letters[o], decrypass[0]);
+                                    decrypass.push(decrypass.shift());
                                   }  
                                   
                                   BdApi.showToast(msg, 
