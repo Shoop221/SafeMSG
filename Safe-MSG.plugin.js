@@ -6,7 +6,7 @@
  */
  var password;
  module.exports = (() => {
-  const version = "1.6";
+  const version = "1.7";
   const config = {
     info: {
       name: "SafeMSG",
@@ -27,9 +27,9 @@
     },
     changelog: [
       {
-        title: `Updating the encryption/ decryption`,
+        title: `Added settings panel`,
         type: "beta",
-        items: ["Just some Qol changes"],
+        items: ["Added some settings stuff"],
       },
     ],
         defaultConfig: [{
