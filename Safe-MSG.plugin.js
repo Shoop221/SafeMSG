@@ -4,7 +4,8 @@
  * @authorLink https://github.com/Shoop221
  * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
  */
-module.exports = (() => {
+ var password;
+ module.exports = (() => {
   const version = "1.6";
   const config = {
     info: {
@@ -18,7 +19,7 @@ module.exports = (() => {
       ],
       version: version,
       description:
-        "Encrypts and Decrypts MSGS. commands: encry$, decry$, key$, genkey$, showkey$",
+        "Encrypts and Decrypts MSGS. commands: encry$, decry$, key$, genkey$",
       github:
         "https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js",
       github_raw:
@@ -31,9 +32,30 @@ module.exports = (() => {
         items: ["Just some Qol changes"],
       },
     ],
+        defaultConfig: [{
+          type: 'textbox',
+          id: 'password',
+          name: "key",
+          note: 'If you want to make your own key put it here. (you can use numbers, letters, and symbols)'
+      }, {
+        type: "switch",
+        id: "GenKey",
+        name: "KeyGen",
+        note: "Enable if you dont want to make your own key! (THE KEY WILL ONLY SHOW IM THE TEXTBOX AFTER YOU RELOAD THE PLUGIN!)",
+        value: false
+    }, ]
   };
 
-  var password = "";
+  //function to generate the key
+  function genkey() {
+    var temp = Math.random() * (999999999 - 1000) + 1000;
+    temp = parseInt(temp);
+    return temp
+  }
+
+  //variables
+  var settings = BdApi.loadData(config.info.name, `settings`);
+  //password = settings.password;
   var msg = "";
   var pwd;
   var letters;
@@ -92,76 +114,9 @@ module.exports = (() => {
 
                   break;
 
-                //The command for the user to make their own key
-                case "key":
-                  var keytxt = message.content.slice(5, message.content.length);
-
-                  if (isNaN(keytxt)) {
-                    BdApi.showToast("This is not a number!", {
-                      type: "error",
-                      Timeout: 3000,
-                    });
-
-                    message.content = message.content.replace(
-                      message.content,
-                      ""
-                    );
-                  } else if (Math.sign(keytxt) == -1) {
-                    BdApi.showToast("Key cannot be negative!", {
-                      type: "error",
-                      Timeout: 3000,
-                    });
-                    message.content = message.content.replace(
-                      message.content,
-                      ""
-                    );
-                  } else if (keytxt.length > 6) {
-                    password = parseInt(keytxt.slice(0, 6));
-                    BdApi.showToast(
-                      "Key is set!! (this will reset when you restart discord!)",
-                      {
-                        type: "success",
-                        Timeout: 3000,
-                      }
-                    );
-                    message.content = message.content.replace(
-                      message.content,
-                      ""
-                    );
-                  } else {
-                    password = parseInt(keytxt);
-                    BdApi.showToast(
-                      "Key is set!! (this will reset when you restart discord!)",
-                      {
-                        type: "success",
-                        Timeout: 3000,
-                      }
-                    );
-                    message.content = message.content.replace(
-                      message.content,
-                      ""
-                    );
-                  }
-                  break;
-
-                //The command for the user to randomly generate a key
-                case "genkey":
-                  password = Math.floor(Math.random() * 999999 + 1);
-                  password = parseInt(password);
-
-                  BdApi.showToast("The key has been generated", {
-                    type: "success",
-                    Timeout: 3000,
-                  });
-                  message.content = message.content.replace(
-                    message.content,
-                    ""
-                  );
-
-                  break;
-
                 //The command to show the user their key
                 case "showkey":
+                  console.log(password);
                   BdApi.showToast("The key is " + password, {
                     type: "success",
                     Timeout: 3000,
@@ -248,7 +203,33 @@ module.exports = (() => {
           };
         }
 
-        getSettingsPanel() {}
+       
+        getSettingsPanel() {
+          const panel = this.buildSettingsPanel();
+          panel.addListener((id, checked) => {
+            if (id == "GenKey") {
+                if (checked) {
+                    password = parseInt(genkey());
+                    settings.password = password;
+                    ZeresPluginLibrary.PluginUtilities.saveSettings(config.info.name, settings);
+                    BdApi.showToast("The key is " + password + " (reload the plugin to see it in the textbox)", {
+                      type: "success",
+                      Timeout: 3000,
+                    });
+                    console.log(settings.password);
+                }
+            }else if(id == "password"){
+              if(checked){
+                settings.password = parseInt(checked);
+                ZeresPluginLibrary.PluginUtilities.saveSettings(config.info.name, settings);
+                password = settings.password;
+                console.log(password);
+              }
+            }
+        });
+          return panel.getElement();
+      }
+        
 
         onStop() {
           Patcher.unpatchAll();
