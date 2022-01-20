@@ -6,7 +6,7 @@
  */
  var password;
  module.exports = (() => {
-  const version = "1.7";
+  const version = "1.8";
   const config = {
     info: {
       name: "SafeMSG",
@@ -19,7 +19,7 @@
       ],
       version: version,
       description:
-        "Encrypts and Decrypts MSGS. commands: encry$, decry$, key$, genkey$",
+        "Encrypts and Decrypts MSGS. commands: encry$, decry$, showkey$",
       github:
         "https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js",
       github_raw:
