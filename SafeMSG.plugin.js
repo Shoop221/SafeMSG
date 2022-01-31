@@ -7,7 +7,7 @@
  */
  var password;
  module.exports = (() => {
-  const version = "1.9";
+  const version = "1.8";
   const config = {
     info: {
       name: "SafeMSG",
