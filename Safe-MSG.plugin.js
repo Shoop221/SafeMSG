@@ -55,7 +55,7 @@
 
   //variables
   var settings = BdApi.loadData(config.info.name, `settings`);
-  //password = settings.password;
+  password = settings.password;
   var msg = "";
   var pwd;
   var letters;
