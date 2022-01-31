@@ -2,7 +2,7 @@
  * @name SafeMSG
  * @authorId 342035782204129285
  * @authorLink https://github.com/Shoop221
- * @source https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js
+ * @source https://github.com/Shoop221/Safe-MSG/blob/main/SafeMSG.plugin.js
  */
  var password;
  module.exports = (() => {
@@ -21,9 +21,9 @@
       description:
         "Encrypts and Decrypts MSGS. commands: encry$, decry$, showkey$",
       github:
-        "https://github.com/Shoop221/Safe-MSG/blob/main/Safe-MSG.plugin.js",
+        "https://github.com/Shoop221/Safe-MSG/blob/main/SafeMSG.plugin.js",
       github_raw:
-        "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/Safe-MSG.plugin.js",
+        "https://raw.githubusercontent.com/Shoop221/Safe-MSG/main/SafeMSG.plugin.js",
     },
     changelog: [
       {
