@@ -46,7 +46,6 @@
         value: false
     }, ]
   };
-  ZeresPluginLibrary.PluginUpdater.checkForUpdate("SafeMSG", version, 'https://raw.githubusercontent.com/Shoop221/SafeMSG/main/SafeMSG.plugin.js');
 
   //function to generate the key
   function genkey() {
