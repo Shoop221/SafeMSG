@@ -8,7 +8,6 @@
  var password;
  module.exports = (() => {
   const version = "1.8";
-  const name = "SafeMSG";
   const config = {
     info: {
       name: "SafeMSG",
@@ -72,7 +71,6 @@
 
 
         onStart() {
-          ZLibrary.PluginUpdater.checkForUpdate(name, version, "https://raw.githubusercontent.com/Shoop221/SafeMSG/main/SafeMSG.plugin.js");
 
         patcher();
 
