@@ -30,7 +30,7 @@
       {
         title: `Added`,
         type: "beta",
-        items: ["Added some settings stuff"],
+        items: ["Maybe an updater idk"],
       },
     ],
         defaultConfig: [{
