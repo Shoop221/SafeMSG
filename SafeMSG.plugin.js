@@ -7,7 +7,7 @@
  */
  var password;
  module.exports = (() => {
-  const version = "1.9";
+  const version = "1.8";
   const config = {
     info: {
       name: "SafeMSG",
@@ -30,7 +30,7 @@
       {
         title: `Added`,
         type: "beta",
-        items: ["Maybe an updater idk"],
+        items: ["Added some settings stuff"],
       },
     ],
         defaultConfig: [{
@@ -74,14 +74,16 @@
           if (!global.ZeresPluginLibrary) return window.BdApi.alert("Library Missing",`The library plugin needed for ${this.getName()} is missing.<br /><br /> <a href="https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js" target="_blank">Click here to download the library!</a>`);
         ZLibrary.PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), "LINK_TO_RAW_CODE");
 
-        if (window.ZLibrary) {
-          ZLibrary.PluginUpdater.checkForUpdate(
+
+        if (window.ZeresPluginLibrary) {
+          global.ZeresPluginLibrary.PluginUpdater.checkForUpdate(
             "SafeMSG",
             version,
             "https://raw.githubusercontent.com/Shoop221/SafeMSG/main/SafeMSG.plugin.js"
           );
         }
 
+        patcher();
 
           Patcher.after(
             DiscordModules.MessageActions,
@@ -217,8 +219,6 @@
           };
         }
        
-       
-
         
         getSettingsPanel() {
           const panel = this.buildSettingsPanel();
