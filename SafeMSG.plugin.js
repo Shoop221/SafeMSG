@@ -7,7 +7,7 @@
  */
  var password;
  module.exports = (() => {
-  const version = "1.8";
+  const version = "1.9";
   const config = {
     info: {
       name: "SafeMSG",
@@ -70,22 +70,17 @@
         }
 
 
-        load() {
-          // Not required, but if the user has ZLibrary installed then support auto update.
-          if (window.ZLibrary) {
-            ZLibrary.PluginUpdater.checkForUpdate(
-              "SafeMSG",
-              version,
-              "https://raw.githubusercontent.com/Shoop221/SafeMSG/main/SafeMSG.plugin.js"
-            );
-          }
-        }
-
-
-
         onStart() {
           if (!global.ZeresPluginLibrary) return window.BdApi.alert("Library Missing",`The library plugin needed for ${this.getName()} is missing.<br /><br /> <a href="https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js" target="_blank">Click here to download the library!</a>`);
         ZLibrary.PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), "LINK_TO_RAW_CODE");
+
+        if (window.ZLibrary) {
+          ZLibrary.PluginUpdater.checkForUpdate(
+            "SafeMSG",
+            version,
+            "https://raw.githubusercontent.com/Shoop221/SafeMSG/main/SafeMSG.plugin.js"
+          );
+        }
 
 
           Patcher.after(
