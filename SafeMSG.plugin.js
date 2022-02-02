@@ -47,13 +47,6 @@
     }, ]
   };
 
-  //function to generate the key
-  function genkey() {
-    var temp = Math.random() * (999999999 - 1000) + 1000;
-    temp = parseInt(temp);
-    return temp
-  }
-
   //variables
   var settings = BdApi.loadData(config.info.name, `settings`);
   password = settings.password;
@@ -71,9 +64,6 @@
 
 
         onStart() {
-
-        patcher();
-
           Patcher.after(
             DiscordModules.MessageActions,
             "sendMessage",
@@ -214,14 +204,14 @@
           panel.addListener((id, checked) => {
             if (id == "GenKey") {
                 if (checked) {
-                    password = parseInt(genkey());
+                    password = Math.floor(Math.random() * (99999999999999999 - 1000) + 1000);
                     settings.password = password;
                     ZeresPluginLibrary.PluginUtilities.saveSettings(config.info.name, settings);
                     BdApi.showToast("The key is " + password + " (reload the plugin to see it in the textbox)", {
                       type: "success",
                       Timeout: 3000,
                     });
-                    console.log(settings.password);                    
+                    console.log(settings.password);
                 }
             }else if(id == "password"){
               if(checked){
